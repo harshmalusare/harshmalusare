@@ -1,11 +1,12 @@
 body {
     font-family: Arial, sans-serif;
     background: #eef1f5;
+    margin: 0;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    min-height: 100vh;
 }
 
 .container {
@@ -15,18 +16,25 @@ body {
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     max-width: 400px;
     width: 100%;
+    box-sizing: border-box;
 }
 
 h1 {
     text-align: center;
     color: #333;
+    font-size: 1.8em;
+}
+
+label {
+    font-weight: bold;
 }
 
 input, button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-top: 10px;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
 button {
@@ -35,6 +43,7 @@ button {
     border: none;
     margin-bottom: 10px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 button:hover {
@@ -44,4 +53,24 @@ button:hover {
 #result {
     margin-top: 20px;
     font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    input, button {
+        font-size: 15px;
+        padding: 10px;
+    }
 }
