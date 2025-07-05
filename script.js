@@ -1,21 +1,42 @@
-function calculate() {
-    const age = parseInt(document.getElementById('age').value);
-    const resultDiv = document.getElementById('result');
+document.addEventListener("DOMContentLoaded", function () {
+  const dobInput = document.getElementById("dob");
+  const liveAge = document.getElementById("liveAge");
+  const funMessage = document.getElementById("funMessage");
+  const themeToggle = document.getElementById("themeToggle");
 
-    if (isNaN(age) || age <= 0) {
-        resultDiv.innerHTML = `<p style="color: red;">Please enter a valid age greater than 0.</p>`;
-        return;
-    }
+  // Dark mode toggle
+  themeToggle.addEventListener("change", function () {
+    document.body.classList.toggle("dark", this.checked);
+  });
 
-    const months = age * 12;
-    const days = age * 365;
-    const hours = age * 8760;
-    const minutes = age * 525600;
+  // Fun messages list
+  const messages = [
+    "You’re aging like fine wine 🍷",
+    "Another second wiser! 🎓",
+    "Keep glowing, age is just a number ✨",
+    "You’re timeless ⏳",
+    "Born to shine, always on time ☀️"
+  ];
 
-    resultDiv.innerHTML = `
-        <p><strong>You spent months:</strong> ${months}</p>
-        <p><strong>You spent days:</strong> ${days}</p>
-        <p><strong>You spent hours:</strong> ${hours}</p>
-        <p><strong>You spent minutes:</strong> ${minutes}</p>
-    `;
-}
+  // Live age calculator
+  function updateAge() {
+    const dob = new Date(dobInput.value);
+    if (isNaN(dob)) return;
+
+    const now = new Date();
+    const diff = now - dob;
+
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const years = Math.floor(days / 365.25);
+
+    const display = `${years} years, ${days % 365} days, ${hours % 24} hours, ${minutes % 60} minutes, ${seconds % 60} seconds`;
+    liveAge.textContent = `Your age: ${display}`;
+    funMessage.textContent = messages[Math.floor(Math.random() * messages.length)];
+  }
+
+  setInterval(updateAge, 1000);
+  dobInput.addEventListener("input", updateAge);
+});
