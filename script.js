@@ -1,42 +1,54 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const dobInput = document.getElementById("dob");
-  const liveAge = document.getElementById("liveAge");
-  const funMessage = document.getElementById("funMessage");
-  const themeToggle = document.getElementById("themeToggle");
+const movies = [
+  { title:"Inception", genre:"Action" },
+  { title:"The Godfather", genre:"Drama" },
+  { title:"Toy Story", genre:"Comedy" },
+  { title:"Get Out", genre:"Horror" },
+  { title:"The Dark Knight", genre:"Action" },
+  { title:"Forrest Gump", genre:"Drama" },
+  // ...add more
+];
 
-  // Dark mode toggle
-  themeToggle.addEventListener("change", function () {
-    document.body.classList.toggle("dark", this.checked);
+const trendingList = document.getElementById('trending-list');
+const recommendList = document.getElementById('recommend-list');
+const searchInput = document.getElementById('search');
+const genreFilter = document.getElementById('genre-filter');
+const randomBtn = document.getElementById('random-btn');
+const darkToggle = document.getElementById('dark-toggle');
+
+function showTrending() {
+  trendingList.innerHTML = '';
+  movies.slice(0,4).forEach(m => {
+    const li = document.createElement('li');
+    li.textContent = m.title;
+    trendingList.append(li);
   });
+}
+function recommend() {
+  const query = searchInput.value.toLowerCase();
+  const genre = genreFilter.value;
+  const filtered = movies.filter(m => {
+    return (!query || m.title.toLowerCase().includes(query))
+      && (!genre || m.genre === genre);
+  });
+  recommendList.innerHTML = '';
+  filtered.slice(0,4).forEach(m => {
+    const li = document.createElement('li');
+    li.textContent = m.title;
+    recommendList.append(li);
+  });
+}
+function randomMovie() {
+  const m = movies[Math.floor(Math.random() * movies.length)];
+  alert("🎲 Random pick: " + m.title);
+}
+function toggleDark() {
+  document.documentElement.toggleAttribute('data-theme');
+}
 
-  // Fun messages list
-  const messages = [
-    "You’re aging like fine wine 🍷",
-    "Another second wiser! 🎓",
-    "Keep glowing, age is just a number ✨",
-    "You’re timeless ⏳",
-    "Born to shine, always on time ☀️"
-  ];
+searchInput.addEventListener('input', recommend);
+genreFilter.addEventListener('change', recommend);
+randomBtn.addEventListener('click', randomMovie);
+darkToggle.addEventListener('click', toggleDark);
 
-  // Live age calculator
-  function updateAge() {
-    const dob = new Date(dobInput.value);
-    if (isNaN(dob)) return;
-
-    const now = new Date();
-    const diff = now - dob;
-
-    const seconds = Math.floor(diff / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-    const years = Math.floor(days / 365.25);
-
-    const display = `${years} years, ${days % 365} days, ${hours % 24} hours, ${minutes % 60} minutes, ${seconds % 60} seconds`;
-    liveAge.textContent = `Your age: ${display}`;
-    funMessage.textContent = messages[Math.floor(Math.random() * messages.length)];
-  }
-
-  setInterval(updateAge, 1000);
-  dobInput.addEventListener("input", updateAge);
-});
+showTrending();
+recommend();
